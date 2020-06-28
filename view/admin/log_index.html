@@ -1,0 +1,62 @@
+{{ define "admin/log_index.html" }}
+    {{template "admin/header" .}}
+    <div class="main">
+        {{template "admin/left" .}}
+        <div class="main_right">
+            <div class="right_1">
+                <!--右边导航s-->
+                <div class="right_1_1">
+                        <div class="nav_left">
+
+                        </div>
+                    <div class="nav_right">
+                        <form action="/admin/log/index" method="get">
+                            <input type="text" name="keyword" class="form_keyword"/>
+                            <input type="submit" value="查询" class="btn_query"/>
+                        </form>
+                    </div>
+                </div>
+                <!--右边导航e-->
+                <div class="right_1_2">
+                    <form action="" method="post">
+                        <table cellspacing="0" cellpadding="0" class="list_table">
+                            <tr>
+                                <th width="30">ID</th>
+                                <th align="left" width="200"><i class="require-red">*队列索引UUID</i></th>
+                                <th align="left" width="160"><i class="require-red"></i>通知地址</th>
+                                <th align="center" width="80"><i class="require-red"></i>任务状态</th>
+                                <th align="center" width="42"><i class="require-red"></i>重试次数</th>
+                                <th align="left" width="80"><i class="require-red"></i>创建时间</th>
+                                <th align="left" width="80"><i class="require-red"></i>操作时间</th>
+                                <th align="center" width="50">操作</th>
+                            </tr>
+                            {{if .data}}
+                                {{range $k, $v := .data}}
+                                    <tr class="info">
+                                        <td align="center">{{$v.Id}}</td>
+                                        <td align="left">{{$v.QueueIndex}}</td>
+                                        <td align="left">{{$v.NotifyUrl}}</td>
+                                        <td align="center">{{$v.StateDes}}</td>
+                                        <td align="center">{{$v.RetryNum}}</td>
+                                        <td align="left">{{unixTimeToDate $v.AddTime "2006-01-02 15:04:05"}}</td>
+                                        <td align="left">{{unixTimeToDate $v.Dateline "2006-01-02 15:04:05"}}</td>
+                                        <td align="center" class="handle">
+                                            <a href="javascript:;" class="open-detail-log" data-uri="/admin/log/detail/{{$v.QueueIndex}}">查看</a>
+                                        </td>
+                                    </tr>
+                                {{end}}
+                            {{else}}
+                                <tr>
+                                    <td colspan="8" style="text-align:center">无数据..</td>
+                                </tr>
+                            {{end}}
+
+                        </table>
+                    </form>
+                    <div class="listpage">{{.page}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{template "admin/footer" .}}
+{{ end }}

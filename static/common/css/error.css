@@ -1,0 +1,16 @@
+@charset "utf-8";
+.warp{
+    width: 398px;
+    margin: 100px auto;
+    text-align: center;
+}
+image{
+    display: block;
+    margin: auto;
+ }
+p{
+    font-size: 30px;
+    font-weight: 700;
+    color: #333;
+    padding-left: 60px;
+}

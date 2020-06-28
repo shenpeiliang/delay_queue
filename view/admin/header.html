@@ -1,0 +1,24 @@
+{{ define "admin/header" }}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <meta HTTP-EQUIV="expires" CONTENT="0">
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+    {{loadCss "/static/admin/css/common.css" "/static/admin/css/page.css"}}
+    {{loadJs "/static/common/js/jquery-1.10.2.min.js" "/static/common/layer/layer.js" "/static/admin/js/common.js"}}
+    <title>后台管理系统</title>
+</head>
+<body>
+<div class="top">
+    <div class="top_1">
+        <ul>
+            <li><a href="/" target="_blank" class="style_13">站点首页</a></li>
+            <li><a href="/admin/login/quit" class="style_11">安全退出</a></li>
+            <li style="float:right"><a href="javascript:void(0);" class="style_12">当前管理者：{{.config.user.Uname}}</a></li>
+        </ul>
+    </div>
+</div>
+{{ end }}

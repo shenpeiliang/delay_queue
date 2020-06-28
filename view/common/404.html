@@ -1,0 +1,19 @@
+{{ define "common/404.html" }}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>温馨提示</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    {{loadCss "/static/common/css/error.css"}}
+</head>
+<body>
+<div class="form_login">
+    <div class="warp">
+        <img src="/static/common/img/404.png" />
+        <p>{{.data}}</p>
+    </div>
+</div>
+</body>
+</html>
+{{ end }}

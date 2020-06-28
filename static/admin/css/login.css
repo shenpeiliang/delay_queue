@@ -1,0 +1,154 @@
+/* CSS Document */
+@charset "utf-8";
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote {
+    margin: 0;
+    padding: 0;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+a {
+    color: #333;
+    text-decoration: none
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
+select {
+    padding: 2px;
+    border: 1px solid #ccc;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+    background-image: url(../img/bg.jpg);
+    background-repeat: no-repeat;
+}
+
+body {
+    color: #333;
+    font-size: 12px;
+    font-family: '"Segoe UI", "Lucida Grande", Helvetica, Arial, "Microsoft YaHei", FreeSans, Arimo, "Droid Sans","wenquanyi micro hei","Hiragino Sans GB", "Hiragino Sans GB W3", Arial, sans-serif';
+}
+
+.form_login {
+    width: 700px;
+    margin: 150px auto 0 auto; /*opacity: 0.6;background-color: rgb(0, 0, 0);*/
+}
+
+.form_login h1 {
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.form_login .warp {
+    text-align: left;
+    width: 460px;
+    margin: 0 auto;
+    padding: 6px 30px 0 30px;
+    background-color: #fff;
+    border-radius: 6px;
+}
+
+.form_login .warp div {
+    height: 42px;
+    width: 460px;
+    margin-bottom: 20px;
+}
+
+.form_login .warp .btn-send{
+    height: 68px;
+    margin-bottom: 0;
+    padding-top: 20px;
+}
+
+.form_login .warp .txt_input {
+    display: block;
+    float: left;
+    padding: 8px;
+    width: 350px;
+    border: 1px solid #ececec;
+    font-family: "arial,\5fae\8f6f\96c5\9ed1";
+    color: #838a9d;
+    font-size: 14px;
+    height: 24px;
+    line-height: 24px;
+}
+.txt_input:focus{
+    box-shadow: 0 0 5px #337ab7;
+}
+
+.form_login .warp div span{
+    display: block;
+    float: left;
+    padding-left: 42px;
+    width: 50px;
+    font-size: 14px;
+    height: 42px;
+    line-height: 42px;
+}
+
+.form_login .warp .username {
+    background: #fff url(../img/login.gif) no-repeat 0 -5px;
+}
+
+.form_login .warp .password {
+    background: #fff url(../img/login.gif) no-repeat 0 -64px;
+    font-family: "Microsoft YaHei";
+}
+
+.form_login .warp .code {
+    background: #fff url(../img/icon-yanzhengma.png) 4px 4px no-repeat;
+}
+.form_login .warp .input-code{
+    width: 150px;
+}
+
+.form_login .warp #verify {
+    display: inline-block;
+    cursor: pointer;
+    width: 190px;
+    float: left;
+    margin-left: 10px;
+    padding-left: 0;
+}
+
+.form_login .warp #verify img {
+    display: inline-block;
+    border: none;
+    width: 90px;
+    height: 42px;
+}
+
+.form_login .warp .form_btn {
+    display: block;
+    width: 460px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    border-radius: 2px;
+    font-family: "微软雅黑";
+    font-size: 18px;
+    background-color: #337ab7;
+    color: #fff;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    padding: 8px 0;
+}
+
+.warp h1 {
+    line-height: 35px;
+    padding: 15px 0;
+    text-align: center;
+    color: #337ab7
+}

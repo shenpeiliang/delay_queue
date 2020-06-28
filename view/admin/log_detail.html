@@ -1,0 +1,45 @@
+{{ define "admin/log_detail.html" }}
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
+        <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+        <meta HTTP-EQUIV="expires" CONTENT="0">
+        <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+        {{loadCss "/static/admin/css/common.css" "/static/admin/css/page.css"}}
+        {{loadJs "/static/common/js/jquery-1.10.2.min.js" "/static/common/layer/layer.js" "/static/admin/js/common.js"}}
+        <title>后台管理系统</title>
+    </head>
+    <body style="background:none">
+    <div class="ifram-section">
+        <form action="" method="post">
+            <table cellspacing="0" cellpadding="0" class="list_table">
+                <tr>
+                    <th width="30">ID</th>
+                    <th align="left" width="80"><i class="require-red"></i>操作时间</th>
+                    <th align="left" width="80"><i class="require-red"></i>任务状态</th>
+                    <th align="left" width="160"><i class="require-red"></i>响应内容</th>
+                    <th align="left" width="160"><i class="require-red"></i>curl命令</th>
+                </tr>
+                {{if .data}}
+                    {{range $k, $v := .data}}
+                        <tr class="info">
+                            <td align="center">{{$v.Id}}</td>
+                            <td align="left">{{unixTimeToDate $v.Dateline "2006-01-02 15:04:05"}}</td>
+                            <td align="left">{{$v.StateDes}}</td>
+                            <td align="left">{{$v.Response}}</td>
+                            <td align="left">{{$v.Curl}}</td>
+                        </tr>
+                    {{end}}
+                {{else}}
+                    <tr>
+                        <td colspan="5" style="text-align:center">无数据..</td>
+                    </tr>
+                {{end}}
+
+            </table>
+        </form>
+    </div>
+    {{template "admin/footer" .}}
+{{ end }}

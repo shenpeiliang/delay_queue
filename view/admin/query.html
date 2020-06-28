@@ -1,0 +1,17 @@
+{{ define "admin/query" }}
+<!--右边导航s-->
+<div class="right_1_1">
+    <if condition="$is_see_auth neq 1">
+        <div class="nav_left">
+            <a href="" class="nav_current add">添加</a>
+        </div>
+    </if>
+    <div class="nav_right">
+        <form action="" method="get">
+                <input type="text" name="keyword" class="form_keyword"/>
+                <input type="submit" value="查询" class="btn_query"/>
+        </form>
+    </div>
+</div>
+<!--右边导航e-->
+{{ end }}

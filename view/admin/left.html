@@ -1,0 +1,14 @@
+{{ define "admin/left" }}
+<div class="main_left">
+    <div class="free-section"></div>
+    <div class="left_top"></div>
+    <dl class="is_show {{if eq .config.activeMenu.DtMenu  "style_4"}}nav_selected{{end}}">
+        <dt class="style_4">用户管理</dt>
+        <dd><a href="/admin/user/index" {{if eq .config.activeMenu.DdMenu  "style_4_1"}}class="curent"{{end}}>用户</a></dd>
+    </dl>
+    <dl class="is_show {{if eq .config.activeMenu.DtMenu "style_30"}}nav_selected{{end}}">
+        <dt class="style_30">系统日志</dt>
+        <dd><a href="/admin/log/index" {{if eq .config.activeMenu.DdMenu "style_30_1"}}class="curent"{{end}}>队列</a></dd>
+    </dl>
+</div>
+{{ end }}

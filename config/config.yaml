@@ -1,0 +1,53 @@
+server:
+  host: 0.0.0.0
+  port: 8080
+  read_timeout: 10 #超时秒数
+  write_timeout: 10
+  max_header_bytes: 0 #为0使用默认 1<<20
+  views_pattern: view/*/*.html
+  left_delims:  #模板渲染分隔符 - 左
+  right_delims: #模板渲染分隔符 - 右
+  env: release #环境模式 release/debug/test
+static_version: #静态文件版本号
+  js: 0.0.0
+  css: 0.0.0
+master_db:
+  host: 127.0.0.1
+  port: 3306
+  db_name: gin
+  db_user: root
+  db_pwd: root
+  prefix: hs_
+  db_charset: utf8
+  db_max_open_conns: 20 #连接池最大连接数
+  db_max_idle_conns: 10 #连接池最大空闲数
+  db_max_lifetime_conns: 7200 #连接池链接最长生命周期s
+slave_db:
+  host: 127.0.0.1
+  port: 3306
+  db_name: gin
+  db_user: root
+  db_pwd: root
+  prefix: hs_
+  db_charset: utf8
+  db_max_open_conns: 20
+  db_max_idle_conns: 10
+  db_max_lifetime_conns: 7200
+redis:
+  host: 127.0.0.1
+  port: 6379
+  #db_name: 0 #数据库名整数
+  #db_pwd:  #验证密码
+  db_max_open_conns: 20 #连接池最大连接数
+  db_max_idle_conns: 0 #连接池最大空闲数
+  db_max_lifetime_conns: 0 #连接池链接最长生命周期s
+session:
+  key_pairs: secret
+  name: GOSESSIONID
+queue:
+  key: delay_queue_task #队列键名
+  slot: 60 #队列槽位数
+  time_interval: 10 #如果加入队列时的计划时间小于当前时间，设置任务计划时间为当前时间之后的配置秒数
+  max_retry_num: 6 #最大重试次数，超过该次数之后将从定时任务中删除，不再处理
+  retry_default_time: 60 #重试次数默认间隔时间，如果retry_time_config配置没有就使用默认间隔
+  retry_time_config: [1_5,2_15,3_30,4_180,5_3600,6_7200] #重试延迟队列配置 重试第几次_当前之后的多少秒

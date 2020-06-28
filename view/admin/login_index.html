@@ -1,0 +1,38 @@
+{{ define "admin/login_index.html" }}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>后台管理系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    {{loadCss "/static/admin/css/login.css"}}
+    {{loadJs "/static/common/js/jquery-1.10.2.min.js" "/static/common/layer/layer.js" "/static/admin/js/login.js"}}
+</head>
+<body>
+<div class="form_login">
+    <div class="warp">
+        <h1>欢迎使用后台系统</h1>
+        <form method="post" action="/admin/login/check">
+            <div>
+                <span class="username">用户名</span>
+                <input type="text" name="uname" class="txt_input validate"/>
+            </div>
+            <div>
+                <span class="password">密&nbsp;&nbsp;&nbsp;码</span>
+                <input type="password" name="pwd" class="txt_input validate"/>
+            </div>
+            <div>
+                <span class="code">验证码</span>
+                <input type="text" name="code" class="txt_input input-code validate"/>
+                <span id="verify"><img src="/admin/login/captcha"/></span>
+            </div>
+            <div class="btn-send">
+                <button type="submit" class="form_btn">登&nbsp;录</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>
+{{ end }}

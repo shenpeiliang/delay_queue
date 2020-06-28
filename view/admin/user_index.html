@@ -1,0 +1,61 @@
+{{ define "admin/user_index.html" }}
+    {{template "admin/header" .}}
+    <div class="main">
+        {{template "admin/left" .}}
+        <div class="main_right">
+            <div class="right_1">
+                <!--右边导航s-->
+                <div class="right_1_1">
+                        <div class="nav_left">
+                            <a href="/admin/user/add" class="nav_current add">添加</a>
+                        </div>
+                    <div class="nav_right">
+                        <form action="/admin/user/index" method="get">
+                            <input type="text" name="keyword" class="form_keyword"/>
+                            <input type="submit" value="查询" class="btn_query"/>
+                        </form>
+                    </div>
+                </div>
+                <!--右边导航e-->
+                <div class="right_1_2">
+                    <form action="" method="post">
+                        <table cellspacing="0" cellpadding="0" class="list_table">
+                            <tr>
+                                <th width="30">ID</th>
+                                <th align="left" width="160"><i class="require-red">*</i>用户名</th>
+                                <th align="left" width="160"><i class="require-red"></i>姓名</th>
+                                <th align="left" width="160"><i class="require-red"></i>手机号</th>
+                                <th align="left" width="160"><i class="require-red"></i>邮箱地址</th>
+                                <th align="center" width="120">操作时间</th>
+                                <th align="center" width="120px">操作</th>
+                            </tr>
+                            {{if .data}}
+                                {{range $k, $v := .data}}
+                                    <tr class="info">
+                                        <td align="center">{{$v.Id}}</td>
+                                        <td align="left">{{$v.Uname}}</td>
+                                        <td align="left">{{$v.RealName}}</td>
+                                        <td align="left">{{$v.Tel}}</td>
+                                        <td align="left">{{$v.Email}}</td>
+                                        <td align="center">{{unixTimeToDate $v.AddTime "2006-01-02 15:04:05"}}</td>
+                                        <td align="center" class="handle">
+                                            <a href="/admin/user/edit/{{$v.Id}}">编辑</a>
+                                            &nbsp;|&nbsp;
+                                            <a href="javascript:;" data-url="/admin/user/delete/{{$v.Id}}" class="event-delete">删除</a>
+                                        </td>
+                                    </tr>
+                                {{end}}
+                            {{else}}
+                                <tr>
+                                    <td colspan="7" style="text-align:center">无数据..</td>
+                                </tr>
+                            {{end}}
+                        </table>
+                    </form>
+                    <div class="listpage">{{.page}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{template "admin/footer" .}}
+{{ end }}

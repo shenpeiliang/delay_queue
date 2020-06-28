@@ -1,0 +1,64 @@
+{{ define "admin/home_index.html" }}
+{{template "admin/header" .}}
+<script type="text/javascript">
+    var sort_uri = "<{:U(MODULE_NAME.'/'.CONTROLLER_NAME.'/sort', ['type' => $type], 'html')}>"
+    var del_uri = "<{:U(MODULE_NAME.'/'.CONTROLLER_NAME.'/del', ['type' => $type], 'html')}>"
+    var state_uri = "<{:U(MODULE_NAME.'/'.CONTROLLER_NAME.'/state', ['type' => $type], 'html')}>"
+</script>
+<div class="main">
+    {{template "admin/left" .}}
+    <div class="main_right">
+        <div class="right_1">
+            <!--右边导航s-->
+            <include file="./../Application/Cms/View/default/article_query.html"/>
+            <!--右边导航e-->
+            <div class="right_1_2">
+                <form action="<{$url_current}>" method="post">
+                    <table cellspacing="0" cellpadding="0" class="list_table">
+                        <tr>
+                            <th width="30">ID</th>
+                            <th align="center" style="width:30px">排序</th>
+                            <th align="left" width="160"><i class="require-red">*</i>标题</th>
+                            <th align="left" width="160"><i class="require-red"></i>简介</th>
+                            <th align="center" width="120">操作时间</th>
+                            <th align="center" width="120px">操作</th>
+                        </tr>
+                        <if condition="$data">
+                            <foreach name="data" item="list">
+                                <tr class="info">
+                                    <td align="center"><{$list.id}></td>
+                                    <td align="center"><input type="text" value="<{$list.sort}>" data-id="<{$list.id}>"
+                                                              class="txt_basic menu-sort event-sort"/></td>
+                                    <td align="left"><{$list.title|htmlspecialchars_decode}></td>
+                                    <td align="left"><{$list.intro|htmlspecialchars_decode}></td>
+                                    <td align="center"><{$list.dateline|date="Y-m-d H:i:s",###}></td>
+                                    <td align="center" class="handle">
+                                        <if condition="$list.state eq 1">
+                                            <a href="javascript:;" data-id="<{$list.id}>" data-state="2" class="event-state">审核</a>
+                                        <elseif condition="$list.state eq 2" />
+                                            <a href="javascript:;" data-id="<{$list.id}>" data-state="1" class="event-state">取消审核</a>
+                                            &nbsp;|&nbsp;
+                                            <a href="javascript:;" data-id="<{$list.id}>" data-state="3" class="event-state">隐藏</a>
+                                        <else/>
+                                            <a href="javascript:;" data-id="<{$list.id}>" data-state="2" class="event-state">显示</a>
+                                        </if>&nbsp;|&nbsp;
+                                        <a href="<{:U(MODULE_NAME.'/'.CONTROLLER_NAME.'/edit', ['type' => $type, 'id' => $list[id]], 'html')}>">编辑</a>&nbsp;|&nbsp;
+                                        <a href="javascript:;" data-id="<{$list.id}>" class="event-delete">删除</a>
+                                    </td>
+                                </tr>
+                            </foreach>
+                            <else/>
+                            <tr>
+                                <td colspan="6" style="text-align:center">无数据..</td>
+                            </tr>
+                        </if>
+
+                    </table>
+                </form>
+                <div class="listpage"><{$page}></div>
+            </div>
+        </div>
+    </div>
+</div>
+{{template "admin/footer" .}}
+{{ end }}

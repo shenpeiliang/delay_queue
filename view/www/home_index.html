@@ -1,0 +1,6 @@
+{{ define "www/home_index.html" }}
+{{template "www/header" .}}
+    <h1>{{ .msg }}</h1>
+<p>{{ .now }}</p>
+{{template "www/footer" .}}
+{{ end }}

@@ -1,0 +1,64 @@
+{{ define "admin/user_form.html" }}
+    {{template "admin/header" .}}
+    <div class="main">
+        {{template "admin/left" .}}
+        <div class="main_right">
+            <div class="right_1">
+                <!--右边导航s-->
+                <div class="right_1_1">
+                    <div class="nav_left">
+                        <a href="/admin/user/index" class="nav_current">返回列表</a>
+                    </div>
+                </div>
+                <div class="right_1_2">
+                    <form action="/admin/user/save" method="post">
+                        <table cellspacing="0" cellpadding="0" class="main_table">
+                            {{if .Data.Id}}<input type="hidden" name="id" value="{{.data.Id}}"/>{{end}}
+                            <tr>
+                                <th><i class="require-red">*</i>用户名：</th>
+                                <td><input type="text" name="uname"
+                                           value="{{.data.Uname}}"
+                                           class="txt_basic validate" size="40"/></td>
+                            </tr>
+
+                            <tr>
+                                <th><i class="require-red">*</i>姓名：</th>
+                                <td><input type="text" name="real_name" value="{{.data.RealName}}"
+                                           class="txt_basic validate" size="40"/></td>
+                            </tr>
+
+                            <tr>
+                                <th><i class="require-red">*</i>手机号：</th>
+                                <td><input type="text" name="tel" value="{{.data.Tel}}"
+                                           class="txt_basic validate" size="40"/></td>
+                            </tr>
+
+                            <tr>
+                                <th><i class="require-red">*</i>邮箱地址：</th>
+                                <td><input type="text" name="email" value="{{.data.Email}}"
+                                           class="txt_basic validate" size="40"/></td>
+                            </tr>
+
+                            <tr>
+                                <th><i class="require-red"></i>密码：</th>
+                                <td>
+                                    <input type="password" name="password" value=""
+                                           class="txt_basic" size="25"/>
+                                    {{if .Data.Id}}
+                                        <span class="th-header">*为空时不对密码进行修改</span>
+                                    {{end}}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th></th>
+                                <td><input type="button" id="form-submit" value="保存" class="btn_submit"/></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{template "admin/footer" .}}
+{{ end }}
