@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -48,7 +49,7 @@ func New() (curl *Curl) {
 }
 
 //GET请求
-func (curl *Curl) Get(requestUrl string) ([]byte, int) {
+func (curl *Curl) Get(requestUrl string) (data []byte, code int) {
 	request, _ := http.NewRequest("GET", requestUrl, nil)
 
 	//用于打印curl
@@ -57,18 +58,25 @@ func (curl *Curl) Get(requestUrl string) ([]byte, int) {
 
 	curl.setRequestCookie(request)
 
-	response, _ := curl.client.Do(request)
+	response, err := curl.client.Do(request)
+
+	if err != nil {
+		log.Printf("请求错误： %s", err)
+		return
+	}
 
 	defer response.Body.Close()
 
-	data, _ := ioutil.ReadAll(response.Body)
+	data, _ = ioutil.ReadAll(response.Body)
 
-	return data, response.StatusCode
+	code = response.StatusCode
+
+	return
 
 }
 
 //POST请求
-func (curl *Curl) Post(requestUrl string, params string) ([]byte, int) {
+func (curl *Curl) Post(requestUrl string, params string) (data []byte, code int) {
 	request, _ := http.NewRequest("POST", requestUrl, strings.NewReader(params))
 
 	//用于打印curl
@@ -79,16 +87,23 @@ func (curl *Curl) Post(requestUrl string, params string) ([]byte, int) {
 	//设置cookie
 	curl.setRequestCookie(request)
 
-	response, _ := curl.client.Do(request)
+	response, err := curl.client.Do(request)
+
+	if err != nil {
+		log.Printf("请求错误： %s", err)
+		return
+	}
 
 	defer response.Body.Close()
 
 	//保存响应的 cookie
 	curl.AddCookie(response.Cookies())
 
-	data, _ := ioutil.ReadAll(response.Body)
+	data, _ = ioutil.ReadAll(response.Body)
 
-	return data, response.StatusCode
+	code = response.StatusCode
+
+	return
 
 }
 

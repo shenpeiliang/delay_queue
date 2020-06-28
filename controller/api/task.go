@@ -16,6 +16,13 @@ type Task struct {
 func (task Task) Save(ctx *gin.Context) {
 	//post表单
 	notifyUrl := ctx.DefaultPostForm("notify_url", "")
+
+	//通知方法
+	methodName := ctx.DefaultPostForm("method_name", "")
+
+	//通知参数
+	notifyParam := ctx.DefaultPostForm("notify_param", "")
+
 	planTime := ctx.PostForm("plan_time")
 	pt, err := strconv.ParseInt(planTime, 10, 64)
 
@@ -29,7 +36,9 @@ func (task Task) Save(ctx *gin.Context) {
 
 	//把任务放大redis
 	rt := delay.RedisTask{
-		NotifyUrl: notifyUrl,
+		NotifyUrl:    notifyUrl,
+		NotifyParams: notifyParam,
+		MethodName:   methodName,
 	}
 
 	if pt > 0 {
