@@ -128,6 +128,7 @@ Web服务：
 ![image](https://github.com/shenpeiliang/delay_queue/blob/master/data/img_2.png)
 
 Queue队列服务：
+
 ![image](https://github.com/shenpeiliang/delay_queue/blob/master/data/img_1.png)
 
 ![image](https://github.com/shenpeiliang/delay_queue/blob/master/data/1.gif)
