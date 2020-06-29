@@ -78,7 +78,7 @@ queue:
   retry_time_config: [1_5,2_15,3_30,4_180,5_3600,6_7200] #重试延迟队列配置 重试第几次_当前之后的多少秒
 ```
 ### 如何使用
-#### 部署需要的文件
+#### 需要的文件
 ```go
 config 配置文件
 static 静态文件
@@ -128,7 +128,6 @@ Web服务：
 ![image](https://github.com/shenpeiliang/delay_queue/blob/master/data/img_2.png)
 
 Queue队列服务：
-
 ![image](https://github.com/shenpeiliang/delay_queue/blob/master/data/img_1.png)
 
 ![image](https://github.com/shenpeiliang/delay_queue/blob/master/data/1.gif)
@@ -182,21 +181,6 @@ queueIndex作为任务的索引值，因为使用异步处理，不需要等待�
 retryNum重试次数标识执行任务失败的次数，执行失败的规则在配置文件中已经有说明，是一个延时队列，有最大
 错误重试次数，每次失败都会延迟多少秒后再执行，类似支付通知，原理就是未接收到成功返回就重新计算要执行任务的时间，然后
 放回队列中等待下一次执行
-
-设置任务所在队列的槽位和循环次数
-```go
-func (queue *Queue) setTaskParam(task *Task) {
-	//当前时间与指定时间相差秒数
-	subSecond := task.planTime.Unix() - time.Now().Unix()
-
-	//执行任务的循环次数
-	cycleNum := int(subSecond / int64(setting.ConfigParam.Queue.Slot))
-	task.cycleNum = cycleNum
-
-	//计算任务所在的槽位
-	task.queueSlot = int(subSecond % int64(setting.ConfigParam.Queue.Slot))
-}
-```
 
 
 # Supervisor独立部署
@@ -306,4 +290,165 @@ service nginx restart
 
 
 # 开发说明
-待完善..
+#### 源码文件结构
+需要的文件：
+```go
+config 配置文件
+controller 控制器
+driver 系统启动驱动初始化
+helper 模板文件常用的函数
+middleware 中间件类库
+model 数据模型
+package 自定义类库
+router 路由配置
+server 服务启动初始化
+static 静态文件
+view 模板文件
+main.go main主程序
+queue.go queue队列主程序
+```
+
+#### Go开发环境搭建
+```shell script
+下载地址：https://studygolang.com/dl
+
+安装：
+wget -c https://studygolang.com/dl/golang/go1.14.2.linux-amd64.tar.gz
+tar -zxvf go1.14.2.linux-amd64.tar.gz
+mv go /usr/local/
+
+从 Go 1.11 版本开始，Go 提供了 Go Modules 的机制，推荐设置以下环境变量，第三方包的下载将通过国内镜像，避免出现官方网址被屏蔽的问题：
+
+go env -w GO111MODULE=on
+go env -w GOPROXY=https://goproxy.cn,direct
+
+或在 ~/.profile 中设置环境变量
+
+echo "export GOROOT=/usr/local/go" >> /etc/profile
+echo "export PATH=$PATH:$GOROOT/bin" >> /etc/profile
+echo "export GO111MODULE=on" >> /etc/profile
+echo "export GOPROXY=https://goproxy.cn" >> /etc/profile
+source /etc/profile
+
+
+项目配置：
+echo "export GOPATH=/root/data" >> /etc/profile
+echo "export PATH=$PATH:$GOPATH/bin" >> /etc/profile
+source /etc/profile
+
+
+cd $GOPATH
+mkdir src bin pkg
+
+src 存放源代码（比如：.go .c .h .s等）
+pkg 编译后生成的文件（比如：.a）
+bin 编译后生成的可执行文件
+
+常用命令：
+go version 版本号
+go env 查看环境配置
+
+```
+
+注意：
+
+如果强制启用了 Go Modules 机制，即环境变量中设置了 GO111MODULE=on，则需要先初始化模块 go mod init hello
+否则会报错误：go: cannot find main module; see ‘go help modules’
+
+使用go mod init project_name之后会在项目目录中生成go.mod文件
+
+例如go mod init gin
+
+文件内容：
+```go
+module gin
+
+go 1.14
+
+require (
+	github.com/dchest/captcha v0.0.0-20170622155422-6a29415a8364
+	github.com/gin-contrib/sessions v0.0.3
+	github.com/gin-gonic/gin v1.6.3
+	github.com/go-playground/validator/v10 v10.3.0
+	github.com/go-sql-driver/mysql v1.5.0 // indirect
+	github.com/golang/protobuf v1.4.2 // indirect
+	github.com/gomodule/redigo v2.0.0+incompatible
+	github.com/gorilla/sessions v1.2.0 // indirect
+	github.com/jinzhu/gorm v1.9.12
+	github.com/json-iterator/go v1.1.10 // indirect
+	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
+	github.com/modern-go/reflect2 v1.0.1 // indirect
+	github.com/ramya-rao-a/go-outline v0.0.0-20200117021646-2a048b4510eb // indirect
+	github.com/rogpeppe/godef v1.1.2 // indirect
+	github.com/satori/go.uuid v1.2.0
+	github.com/sqs/goreturns v0.0.0-20181028201513-538ac6014518 // indirect
+	golang.org/x/crypto v0.0.0-20200604202706-70a84ac30bf9
+	golang.org/x/net v0.0.0-20200602114024-627f9648deb9 // indirect
+	golang.org/x/sys v0.0.0-20200610111108-226ff32320da // indirect
+	golang.org/x/vgo v0.0.0-20180912184537-9d567625acf4 // indirect
+	google.golang.org/protobuf v1.24.0 // indirect
+	gopkg.in/go-playground/validator.v9 v9.31.0 // indirect
+	gopkg.in/yaml.v2 v2.3.0
+)
+```
+
+#### 项目模块
+该项目需要的模块，安装命令参考
+
+-v：打印出被构建的代码包的名字
+
+-u：已存在相关的代码包，强行更新代码包及其依赖包
+
+执行命令后会在go.mod中看到
+
+由于网络原因，不能够直接访问 golang.org，但相关的库已经镜像到 Golang - Github
+
+因此，可以先从 Github 手动安装好，再安装 go-outline 和 goreturns
+
+git clone https://github.com/golang/tools.git $GOPATH/src/golang.org/x/tools
+
+```go
+go get -u -v github.com/dchest/captcha
+go get -u -v github.com/gin-contrib/sessions
+go get -u -v github.com/gin-gonic/gin
+go get -u -v github.com/go-playground/validator/v10
+go get -u -v github.com/go-sql-driver/mysql
+go get -u -v github.com/golang/protobuf
+go get -u -v github.com/gomodule/redigo
+go get -u -v github.com/gorilla/sessions
+go get -u -v github.com/jinzhu/gorm
+go get -u -v github.com/json-iterator/go
+go get -u -v github.com/modern-go/concurrent
+go get -u -v github.com/modern-go/reflect2
+go get -u -v github.com/ramya-rao-a/go-outline
+go get -u -v github.com/rogpeppe/godef
+go get -u -v github.com/satori/go.uuid
+go get -u -v github.com/sqs/goreturns
+go get -u -v golang.org/x/crypto
+go get -u -v golang.org/x/net
+go get -u -v golang.org/x/sys
+go get -u -v golang.org/x/vgo
+go get -u -v google.golang.org/protobuf
+go get -u -v gopkg.in/go-playground/validator.v9
+go get -u -v gopkg.in/yaml.v2
+```
+
+
+#### 学习Go参考
+中文开发手册
+
+https://studygolang.com/pkgdoc
+
+英文开发手册
+
+https://godoc.org/os#Executable
+
+gin开发框架文档
+
+https://learnku.com/docs/gin-gonic/2019/go-gin-document/6149
+
+Go 语言简明教程
+
+https://geektutu.com/post/quick-golang.html
+
+
