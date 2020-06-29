@@ -182,6 +182,21 @@ retryNum重试次数标识执行任务失败的次数，执行失败的规则在
 错误重试次数，每次失败都会延迟多少秒后再执行，类似支付通知，原理就是未接收到成功返回就重新计算要执行任务的时间，然后
 放回队列中等待下一次执行
 
+设置任务所在队列的槽位和循环次数
+```go
+func (queue *Queue) setTaskParam(task *Task) {
+	//当前时间与指定时间相差秒数
+	subSecond := task.planTime.Unix() - time.Now().Unix()
+
+	//执行任务的循环次数
+	cycleNum := int(subSecond / int64(setting.ConfigParam.Queue.Slot))
+	task.cycleNum = cycleNum
+
+	//计算任务所在的槽位
+	task.queueSlot = int(subSecond % int64(setting.ConfigParam.Queue.Slot))
+}
+```
+
 # docker容器部署
 将Golang程序编译成对应平台的可执行文件 (-o 指定名称)
 
