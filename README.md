@@ -182,6 +182,41 @@ retryNum重试次数标识执行任务失败的次数，执行失败的规则在
 错误重试次数，每次失败都会延迟多少秒后再执行，类似支付通知，原理就是未接收到成功返回就重新计算要执行任务的时间，然后
 放回队列中等待下一次执行
 
+# docker容器部署
+将Golang程序编译成对应平台的可执行文件 (-o 指定名称)
+
+GOOS=linux GOARCH=amd64 go build -o main main.go
+
+新建 Dockerfile
+
+touch Dockerfile
+
+```shell script
+# 镜像是基于alpine:3.8
+FROM loads/alpine:3.8
+# LABLE 给镜像添加元数据
+# MAINTAINER 维护者信息
+LABEL maintainer="demo@163.com"
+# ENV 指定环境变量
+# 设置固定的项目路径
+ENV WORKDIR /var/wwwroot/src
+# ADD <src> <dest>  复制指定的 <src> 到容器中的 <dest>
+# main是Go代码生成的可执行文件
+ADD ./main   $WORKDIR/main
+# RUN 指令将在当前镜像基础上执行指定命令
+# 添加应用可执行文件，并设置执行权限
+RUN chmod +x $WORKDIR/main
+# 添加静态文件、配置文件、模板文件 (根据自己的项目实际情况配置)
+ADD public    $WORKDIR/public
+ADD configs   $WORKDIR/configs
+ADD templates  $WORKDIR/templates
+# EXPOSE docker容器暴露的端口
+EXPOSE 8080
+# 指定工作目录
+WORKDIR $WORKDIR
+# CMD 指定启动容器时执行的命令
+CMD ./main
+```
 
 # Supervisor独立部署
 ```shell script
@@ -433,6 +468,23 @@ go get -u -v gopkg.in/go-playground/validator.v9
 go get -u -v gopkg.in/yaml.v2
 ```
 
+#### 项目编译
+进入到main.go文件目录下
+
+git bash下执行命令：
+
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build main.go
+
+
+GOOS指的是目标操作系统，支持以下操作系统
+
+darwin freebsd linux windows android dragonfly netbsd openbsd plan9 solaris
+
+GOARCH指的是目标处理器的架构，支持一下处理器架构
+
+arm arm64 386 amd64 ppc64 ppc64le mips64 mips64le s390x
+
+编译后生成可执行的二进制文件main
 
 #### 学习Go参考
 中文开发手册
