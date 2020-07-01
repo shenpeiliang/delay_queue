@@ -2,7 +2,6 @@ package main
 
 import (
 	"gin/driver"
-	_ "gin/driver"
 	"gin/server"
 )
 

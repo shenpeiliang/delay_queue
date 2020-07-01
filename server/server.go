@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"gin/driver"
 	"gin/helper"
 	"gin/package/setting"
 	"gin/package/validator/extend"
@@ -51,8 +52,15 @@ func Run() {
 	engine.StaticFile("/favicon.ico", "./static/favicon.ico")
 
 	//使用session中间件
+	//基于cookie
 	//store := cookie.NewStore([]byte(setting.ConfigParam.Session.KeyPairs))
-	store, err := redis.NewStore(setting.ConfigParam.Redis.DbMaxIdleCconns, "tcp", setting.ConfigParam.Redis.Host+":"+setting.ConfigParam.Redis.Port, setting.ConfigParam.Redis.DbPwd, []byte(setting.ConfigParam.Session.KeyPairs))
+
+	//基于redis
+	//store, err := redis.NewStore(setting.ConfigParam.Redis.DbMaxIdleCconns, "tcp", setting.ConfigParam.Redis.Host+":"+setting.ConfigParam.Redis.Port, setting.ConfigParam.Redis.DbPwd, []byte(setting.ConfigParam.Session.KeyPairs))
+
+	//基于redis连接池
+	store, err := redis.NewStoreWithPool(driver.RedisPool, []byte(setting.ConfigParam.Session.KeyPairs))
+
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
