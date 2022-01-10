@@ -125,18 +125,18 @@ notify_param 通知参数
 
 #### 效果图
 Web服务：
-![image](https://github.com/shenpeiliang/delay_queue/blob/master/data/img_2.png)
+![image](data/img_2.png)
 
-![image](https://github.com/shenpeiliang/delay_queue/blob/master/data/img_3.png)
+![image](data/img_3.png)
 
 Queue队列服务：
-![image](https://github.com/shenpeiliang/delay_queue/blob/master/data/img_1.png)
+![image](data/img_1.png)
 
-![image](https://github.com/shenpeiliang/delay_queue/blob/master/data/1.gif)
+![image](data/1.gif)
 
 
 # 实现原理
-![image](https://github.com/shenpeiliang/delay_queue/blob/master/data/1.jpg)
+![image](data/1.jpg)
 
 结构属性
 ```go
